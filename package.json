@@ -1,0 +1,17 @@
+{
+  "name": "stageone",
+  "version": "1.0.0",
+  "description": "A simple API to get user ip and location and send a greeting",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "author": "Bolarinwa Ahmed",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "geoip-lite": "^1.4.10",
+    "openmeteo": "^1.1.4"
+  }
+}
