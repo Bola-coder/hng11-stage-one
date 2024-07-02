@@ -41,7 +41,7 @@ app.get("/api/hello", async (req, res) => {
   res.status(200).json({
     client_ip: ip,
     location: city,
-    message: `Hello ${visitor_name}, the temperature is ${temperature}°C in ${city} today`,
+    message: `Hello ${visitor_name}!, the temperature is ${temperature} degrees celsius in ${city}`,
   });
 });
 
