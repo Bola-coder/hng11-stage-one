@@ -1,6 +1,5 @@
+const dotenv = require("dotenv").config();
 const express = require("express");
-const { fetchWeatherApi } = require("openmeteo");
-
 const app = express();
 
 app.set("trust proxy", true);
@@ -23,23 +22,26 @@ app.get("/api/hello", async (req, res) => {
   console.log(geo);
 
   const city = geo ? geo.city : "Unknown city";
+  const lat = geo.latitude;
+  const lon = geo.longitude;
 
-  // Getting temparature details
-  const params = {
-    latitude: geo.latitude,
-    longitude: geo.longitude,
-    hourly: "temperature_2m",
-  };
+  if (!lat || !lon) {
+    return res.status(500).json({ message: "Could not determine location" });
+  }
 
-  const url = "https://api.open-meteo.com/v1/forecast";
-  const responses = await fetchWeatherApi(url, params);
+  console.log(process.env.openWeatherAPIKEY);
 
-  console.log(responses[0]);
+  const weatherResponse = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=${process.env.openWeatherAPIKEY}`
+  );
+  const weather = await weatherResponse.json();
+  console.log(weather);
+  const temperature = weather?.main?.temp || 27;
 
   res.status(200).json({
     client_ip: ip,
     location: city,
-    message: `Hello ${visitor_name}, the temperature is 25°C in ${city} today`,
+    message: `Hello ${visitor_name}, the temperature is ${temperature}°C in ${city} today`,
   });
 });
 
